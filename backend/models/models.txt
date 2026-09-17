@@ -1,0 +1,35 @@
+Project
+├── name
+├── description
+├── organizationId
+├── createdBy
+├── status
+├── startDate
+├── dueDate
+├── createdAt
+└── updatedAt
+
+ProjectMember
+├── projectId
+├── userId
+├── assignedBy
+└── assignedAt
+
+Task
+├── title
+├── description
+├── projectId
+├── createdBy
+├── assignedTo
+├── status
+├── priority
+├── dueDate
+├── createdAt
+└── updatedAt
+
+Session
+├── userId
+├── refreshTokenHash
+├── revoked
+├── createdAt
+└── updatedAt

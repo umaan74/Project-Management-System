@@ -1,0 +1,210 @@
+1. Authentication
+2. Organization
+3. Organization Members
+4. Project
+5. Project Members
+6. Task
+PROJECT MANAGEMENT SYSTEM
+=========================
+API ENDPOINTS - FINAL
+
+1. AUTHENTICATION
+----------------
+POST   /api/auth/register
+       → New user registration
+
+POST   /api/auth/login
+       → User login
+
+POST   /api/auth/refresh
+       → Generate new access token using refresh token
+
+POST   /api/auth/logout
+       → Logout current session
+
+POST   /api/auth/logout-all
+       → Logout all active sessions
+
+
+2. ORGANIZATION
+---------------
+POST   /api/organizations
+       → Create a new organization
+
+GET    /api/organizations
+       → Get organizations of the logged-in user
+
+GET    /api/organizations/:organizationId
+       → Get specific organization details
+
+PATCH  /api/organizations/:organizationId
+       → Update organization details
+       → Admin only
+
+DELETE /api/organizations/:organizationId
+       → Delete organization
+       → Admin only
+
+
+3. ORGANIZATION MEMBERS
+----------------------
+POST   /api/organizations/join
+       → Join an organization using invite code
+
+GET    /api/organizations/:organizationId/members
+       → Get all members of an organization
+
+PATCH  /api/organizations/:organizationId/members/:userId
+       → Change a member's role
+       → Admin only
+
+DELETE /api/organizations/:organizationId/members/:userId
+       → Remove a member from organization
+       → Admin only
+
+
+4. PROJECT
+----------
+POST   /api/organizations/:organizationId/projects
+       → Create a new project
+       → Admin only
+
+GET    /api/organizations/:organizationId/projects
+       → Get projects accessible to the user
+
+GET    /api/projects/:projectId
+       → Get specific project details
+       → Project member only
+
+PATCH  /api/projects/:projectId
+       → Update project details
+       → Admin only
+
+DELETE /api/projects/:projectId
+       → Delete project
+       → Admin only
+
+
+5. PROJECT MEMBERS
+------------------
+POST   /api/projects/:projectId/members
+       → Assign an organization member to a project
+       → Admin only
+
+GET    /api/projects/:projectId/members
+       → Get all members assigned to a project
+
+DELETE /api/projects/:projectId/members/:userId
+       → Remove a member from a project
+       → Admin only
+
+
+6. TASK
+-------
+POST   /api/projects/:projectId/tasks
+       → Create a new task
+       → Admin only
+
+GET    /api/projects/:projectId/tasks
+       → Get all tasks of a project
+       → Project member only
+
+GET    /api/tasks/:taskId
+       → Get specific task details
+       → Project member only
+
+PATCH  /api/tasks/:taskId
+       → Update task details
+       → Project member only
+
+PATCH  /api/tasks/:taskId/assign
+       → Assign or reassign task to a project member
+       → Admin only
+
+DELETE /api/tasks/:taskId
+       → Delete task
+       → Admin only
+
+
+IMPORTANT RULES
+---------------
+1. Authentication is required for all protected APIs.
+
+2. createdBy is NOT sent by frontend.
+   Backend gets it from req.user.
+
+3. assignedBy is NOT sent by frontend.
+   Backend gets it from req.user.
+
+4. assignedTo must be a member of that project.
+
+5. A user must belong to an organization before
+   being assigned to its project.
+
+6. Organization role:
+   admin / member
+
+7. Project access is controlled using ProjectMember.
+
+8. Task creation is ADMIN ONLY.
+
+9. Members can only access projects in which
+   they are ProjectMembers.
+
+
+HTTP METHODS
+------------
+
+GET
+→ Get / Read data
+
+POST
+→ Create data
+
+PATCH
+→ Update existing data
+
+DELETE
+→ Delete data
+
+
+API FLOW
+--------
+
+Authentication
+      ↓
+Organization
+      ↓
+Organization Members
+      ↓
+Projects
+      ↓
+Project Members
+      ↓
+Tasks
+      ↓
+Authorization / Access Control
+| Action                     | Admin   | Member  |
+| -------------------------- | :---    | :----:  |
+| Register / Login           |   ✅   |    ✅   |
+| Create Organization        |   ✅   |   ❌*   |
+| View Organization          |   ✅   |    ✅   |
+| Update Organization        |   ✅   |    ❌   |
+| Delete Organization        |   ✅   |    ❌   |
+| Join Organization          |   ✅   |    ✅   |
+| View Organization Members  |   ✅   |    ✅   |
+| Change Member Role         |   ✅   |    ❌   |
+| Remove Organization Member |   ✅   |    ❌   |
+| Create Project             |   ✅   |    ❌   |
+| View Assigned Projects     |   ✅   |    ✅   |
+| Update Project             |   ✅   |    ❌   |
+| Delete Project             |   ✅   |    ❌   |
+| Assign Project Member      |   ✅   |    ❌   |
+| View Project Members       |   ✅   |    ✅   |
+| Remove Project Member      |   ✅   |    ❌   |
+| **Create Task**            | **✅** |  **❌** |
+| View Project Tasks         |   ✅   |    ✅   |
+| View Task                  |   ✅   |    ✅   |
+| Update Task                |   ✅   |    ❌*   |
+| Assign/Reassign Task       |   ✅   |    ❌   |
+| Delete Task                |   ✅   |    ❌   |

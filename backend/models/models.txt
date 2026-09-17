@@ -33,3 +33,23 @@ Session
 ├── revoked
 ├── createdAt
 └── updatedAt
+// required: true
+// → field hona compulsory
+
+// unique: true
+// → same email normally duplicate nahi hona chahiye
+
+// minlength
+// → minimum characters
+
+// maxlength
+// → maximum characters
+
+// trim: true
+// → extra spaces remove
+
+// lowercase: true
+// → email lowercase mein store
+
+// default
+// → value nahi di to default value

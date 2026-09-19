@@ -14,12 +14,12 @@ export async function Register(req, res) {
     return res.json("User Already Exist !");
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await User({
+  const user = await User.create({
     username: username,
     email: email,
     password: hashedPassword,
   });
-
+ 
   res.status(201).json({
     message: "User registered Successfully",
     user,
@@ -32,7 +32,7 @@ export async function Login(req, res) {
     username,
   });
   if (!user) {
-    return res.json("User doesn't Exist !\nPlease Register first");
+    return res.json("User doesn't Exist ! Please Register first");
   }
   const isValid = await bcrypt.compare(password, user.password);
   if (!isValid) {
@@ -83,7 +83,7 @@ export async function Refresh(req, res) {
 
   const Sessions = await Session.find({
     userId: user.userId,
-     revoked: false,
+    revoked: false,
   });
   let userSession = null;
   for (const s of Sessions) {

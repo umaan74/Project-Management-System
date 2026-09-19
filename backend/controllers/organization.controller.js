@@ -110,33 +110,6 @@ export async function UpdateOrganization(req, res) {
   }
 }
 
-// DELETE /api/organizations/:organizationId
-//                     ↓
-//              AuthMiddleware
-//                     ↓
-//           req.user.userId
-//                     +
-//        req.params.organizationId
-//                     ↓
-//         OrganizationMember.findOne()
-//                     ↓
-//        user + organization match?
-//                ↙          ↘
-//              NO            YES
-//              ↓              ↓
-//             403        role = admin?
-//                          ↙       ↘
-//                        NO         YES
-//                        ↓           ↓
-//                       403      Organization.findOne()
-//                                     ↓
-//                               Organization exists?
-//                                 ↙          ↘
-//                               NO            YES
-//                               ↓              ↓
-//                              404          Delete
-//                                             ↓
-//                                            200
 
 export async function DeleteOrganization(req, res) {
   const user = req.user.userId;

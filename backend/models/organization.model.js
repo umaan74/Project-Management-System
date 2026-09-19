@@ -5,7 +5,7 @@ const organizationSchema = new mongoose.Schema(
     name: {
       required: true,
       type: String,
-      trime: true,
+      trim: true,
     },
     inviteCode: {
       type: String,
